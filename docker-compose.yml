@@ -1,0 +1,25 @@
+version: '3.1'
+services:
+     couchdb:
+         image: 'couchdb:latest'
+         container_name: couchdb_container
+         ports:
+           - 5984:5984
+         environment:
+           COUCHDB_USER: admin
+           COUCHDB_PASSWORD: dockercouch#7711
+     web:
+         build: .
+         container_name: quartzapp_container
+         ports:
+           - 8088:8080
+         depends_on: 
+           - couchdb
+         links:
+           - couchdb
+         environment:
+           docker_couch_url: http://couchdb:5984
+           docker_couch_username: admin
+           docker_couch_password: dockercouch#7711
+
+
